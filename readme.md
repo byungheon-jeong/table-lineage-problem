@@ -17,7 +17,7 @@ height
 
 | Job ID | Output Table | Source Tables | 
 | ---  | --- | ---  | 
-| 1 | Z | [C, SOURCE TABLES] |
+| 1 | Z | [C] |
 | 2 | B | [D,E] |
 | 3 | C | [AA,AB] |
 | 4 | D | [AB,AC] |
@@ -53,7 +53,7 @@ height
 5. In order to account for #4, we have to weigh more distance shared source tables less than shared source tables that are closer in distance. 
     - Most > linear function to generate the weights should work, but I'll go with an inverse exponential function to weigh the similarity scores of different distance similarities
 ## Similarity Function 
-$$Similarity = \sum_{n=1}^{min(A.height,\space \space B.height) - 1}(1/2^{(x-n)}*(A.source\space tables\space at \space n \cap B.source\space tables\space at \space n )$$
+$$Similarity = \sum_{n=1}^{min(A.height,\space \space B.height) - 1}1/2^{(x-n)}*(A.source\space tables\space at \space n \cap B.source\space tables\space at \space n )$$
 Where $$height = Distance/Steps \space from \space Global \space  Source \space Tables$$
 and  $$x = max(A.height,\space \space B.height)$$
 
