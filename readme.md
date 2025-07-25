@@ -4,7 +4,7 @@ Jobs with lineage/ dependency graph as follows (we are assuming non cyclicality 
 
 height
 
-    3     Z            B       Q*   Z
+    3     Z            B       Q*   X
            \        /   \       \ / |    
     2        C      D      E     Q  |        
            /  \   /  \    / \  /    |  
@@ -29,6 +29,7 @@ height
 | 10 | AE | [SOURCE TABLES] |
 | 11 | Q | [AE] |
 | 12 | Q* | [Q] |
+| 13 | X | [Q, SOURCE TABLES]
 
 
 
@@ -53,7 +54,7 @@ height
 5. In order to account for #4, we have to weigh more distance shared source tables less than shared source tables that are closer in distance. 
     - Most > linear function to generate the weights should work, but I'll go with an inverse exponential function to weigh the similarity scores of different distance similarities
 ## Similarity Function 
-$$Similarity = \sum_{n=1}^{min(A.height,\space \space B.height) - 1}1/2^{(x-n)}*(A.source\space tables\space at \space n \cap B.source\space tables\space at \space n )$$
+$$Similarity = \sum_{n=1}^{min(A.height,\space \space B.height)}1/2^{(x-n)}*(A.source\space tables\space at \space n \cap B.source\space tables\space at \space n )$$
 Where $$height = Distance/Steps \space from \space Global \space  Source \space Tables$$
 and  $$x = max(A.height,\space \space B.height)$$
 
@@ -78,3 +79,10 @@ In order to facilitate this similarity function, I'll do the following:
 7. Profit???
 
 
+## Instructions
+Please use the unittest file tests/test_node.py as a template for how to start this lineage tree 
+
+Recommend python >= 3.13
+No libraries outside default python libs were used
+
+>>> python3 -m unittest tests/test_tree.py

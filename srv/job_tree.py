@@ -43,27 +43,27 @@ class JobTree():
         # if node does not exist
         job_info = {"_".join(key.split(" ")).lower(): info for key,info in job_info.items()}
         node = JobNode(**job_info)
-        if node.output_name == "X":
-            print("AHHHH")
         self.node_directory[node.output_name] = node
 
         height_tracker = []
 
         for source_table in node.get_source_tables():
-            # BASE Case, exit
+            # BASE Case, exit loop
             if source_table == "SOURCE TABLES":
-                return 1
-            
-            source_node_name = self.get_job_name_of_table(source_table)
-            source_node = self.get_node(source_node_name["Output Table"])
-            
-            if source_node:
-                source_node.add_inheritors(node)
-                height_tracker.append(source_node.get_height() + 1)
+                # We are appending 1 b/c this is base case
+                height_tracker.append(1)
             
             else:
-                job_name = self.get_job_name_of_table(source_table)
-                height_tracker.append(self.add_job_get_height(job_name) + 1)
+                source_node_name = self.get_job_name_of_table(source_table)
+                source_node = self.get_node(source_node_name["Output Table"])
+                
+                if source_node:
+                    source_node.add_inheritors(node)
+                    height_tracker.append(source_node.get_height() + 1)
+                
+                else:
+                    job_name = self.get_job_name_of_table(source_table)
+                    height_tracker.append(self.add_job_get_height(job_name) + 1)
 
         height = max(height_tracker)
         node.set_height(height)
@@ -94,7 +94,10 @@ class JobTree():
             output_table_name = node.get_output_name()
             recursive_source_tables_a[cur_height].add(output_table_name)
             for table in node.get_source_tables():
-                bfs_a.appendleft(table)
+                source_node = self.get_node(table)
+                # Control for Global Source Tables
+                if source_node:
+                    bfs_a.appendleft(source_node)
             
         while bfs_b:
             node = bfs_b.pop()
@@ -102,7 +105,10 @@ class JobTree():
             output_table_name = node.get_output_name()
             recursive_source_tables_b[cur_height].add(output_table_name)
             for table in node.get_source_tables():
-                bfs_b.appendleft(table)
+                source_node = self.get_node(table)
+                # Control for Global Source Tables
+                if source_node:
+                    bfs_b.appendleft(source_node)
             
         n1_height = node1.get_height()
         n2_height= node2.get_height()
@@ -111,15 +117,15 @@ class JobTree():
 
         while current_height > 0:
             # To weigh the different "levels" of the source table graph as more distant common tables should be counted for less
-            distance_multiplier = max_height - current_height
+            distance_multiplier = 0.5**(max_height - current_height)
 
-            node_a_source_tables_at_cur_level = recursive_source_tables_a[cur_height]
-            node_b_source_tables_at_cur_level = recursive_source_tables_b[cur_height]
+            node_a_source_tables_at_cur_level = recursive_source_tables_a[current_height]
+            node_b_source_tables_at_cur_level = recursive_source_tables_b[current_height]
             # We are counting the number of shared source tables of node_a and node_b at each "level"
             number_of_common_source_tables = len(node_a_source_tables_at_cur_level & node_b_source_tables_at_cur_level)
             
-            similarity_score += distance_multiplier * number_of_common_source_tables
-
+            similarity_score += (distance_multiplier * number_of_common_source_tables)
+            current_height -= 1
         return similarity_score
 
 

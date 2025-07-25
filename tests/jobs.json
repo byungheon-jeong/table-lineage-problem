@@ -10,5 +10,6 @@
   { "Job ID": 9, "Output Table": "AD", "Source Tables": ["SOURCE TABLES"] },
   { "Job ID": 10, "Output Table": "AE", "Source Tables": ["SOURCE TABLES"] },
   { "Job ID": 11, "Output Table": "Q", "Source Tables": ["AE"] },
-  { "Job ID": 12, "Output Table": "Q*", "Source Tables": ["Q"] }
+  { "Job ID": 12, "Output Table": "Q*", "Source Tables": ["Q"] },
+  { "Job ID": 13, "Output Table": "X", "Source Tables": ["Q", "SOURCE TABLES"] }
 ]
