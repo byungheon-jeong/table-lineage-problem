@@ -1,0 +1,15 @@
+[
+  { "Job ID": 1, "Output Table": "Z", "Source Tables": ["C"] },
+  { "Job ID": 2, "Output Table": "B", "Source Tables": ["D", "E"] },
+  { "Job ID": 3, "Output Table": "C", "Source Tables": ["AA", "AB"] },
+  { "Job ID": 4, "Output Table": "D", "Source Tables": ["AB", "AC"] },
+  { "Job ID": 5, "Output Table": "E", "Source Tables": ["AD", "AE"] },
+  { "Job ID": 6, "Output Table": "AA", "Source Tables": ["SOURCE TABLES"] },
+  { "Job ID": 7, "Output Table": "AB", "Source Tables": ["SOURCE TABLES"] },
+  { "Job ID": 8, "Output Table": "AC", "Source Tables": ["SOURCE TABLES"] },
+  { "Job ID": 9, "Output Table": "AD", "Source Tables": ["SOURCE TABLES"] },
+  { "Job ID": 10, "Output Table": "AE", "Source Tables": ["SOURCE TABLES"] },
+  { "Job ID": 11, "Output Table": "Q", "Source Tables": ["AE"] },
+  { "Job ID": 12, "Output Table": "Q*", "Source Tables": ["Q"] },
+  { "Job ID": 13, "Output Table": "X", "Source Tables": ["Q", "SOURCE TABLES"] }
+]
